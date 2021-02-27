@@ -13,5 +13,6 @@ public interface GestionTituloLOCAL {
 	public String generarCodigoLibro();
 	public Persona buscarPersona(String cedulaCliente);
 	public List<Titulos> obtenerTitulos(String cedula) ;
+	public boolean validadorDeCedula(String cedula) throws Exception ;
 
 }

@@ -14,8 +14,7 @@ import ec.edu.ups.g1.prueba.EvaluacionWSPALTA.modelo.Persona;
 
 @Stateless
 public class PersonaDAO {
-	@Inject
-	private Connection con;
+
 
 	@Inject
 	private EntityManager em;
@@ -28,8 +27,8 @@ public class PersonaDAO {
 
 	public Persona getPersona(String cedula) {
 		System.out.println("trae cedula al dao" +""+cedula);
-		String jpl = "select c from Persona c Where c.cedula =:corr";
-		Query q = em.createQuery(jpl, Persona.class);
+		String jpl = "select * from persona where cedula =:corr";
+		Query q = em.createNativeQuery(jpl, Persona.class);
 		q.setParameter("corr", cedula);
 		return (Persona)q.getSingleResult();
 		

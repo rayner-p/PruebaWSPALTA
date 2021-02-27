@@ -20,13 +20,14 @@ public class TituloDAO {
 	private EntityManager em;
 
 	public boolean insert(Titulos persona) throws SQLException {
+		System.out.println("TRAE AL DAO "+" "+persona);
 		em.persist(persona);
 		return true;
 	}
 
 	public List<Titulos> getPersona() {
 
-		String jpql = "SELECT c FROM Persona c";
+		String jpql = "SELECT c FROM Titulos c";
 		Query q = em.createQuery(jpql, Titulos.class);
 		List<Titulos> listado = q.getResultList();
 		System.out.println("ESTO ES DEL DAO CLIENTE LISTAR" + listado);
@@ -35,12 +36,12 @@ public class TituloDAO {
 	
 	public List<Titulos> obtenerTitulos(String cedu) {
 		System.out.println("entra a cedua" + cedu);
-		String jpql = "SELECT p, c FROM Titulos c, Persona p WHERE c.cuenta_fk = :cedulaCliente";
-		Query q = em.createQuery(jpql, Persona.class);
-		q.setParameter("cedulaCliente", cedu);
 		@SuppressWarnings("unchecked")
-		List<Titulos> pers = (List<Titulos>) q.getSingleResult();
-		return pers;
+		List<Titulos> resultadoCuentas = em.createNativeQuery(
+				"SELECT * FROM Titulos c join Persona p on c.numero_cuenta_fk = p.cedula and c.numero_cuenta_fk =:cedulaCliente",
+				Titulos.class).setParameter("cedulaCliente", cedu).getResultList();
+		System.out.println("RESULTADO DEL QUERY "+ resultadoCuentas);
+		return resultadoCuentas;		
 	}
 
 }
